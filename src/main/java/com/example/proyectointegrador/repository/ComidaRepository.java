@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ComidaRepository extends JpaRepository<Comida, Long> {
+    boolean existsByNombre(String nombre);
 }

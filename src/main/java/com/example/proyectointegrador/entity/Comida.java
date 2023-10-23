@@ -1,6 +1,8 @@
 package com.example.proyectointegrador.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.List;
 
 
@@ -19,6 +21,6 @@ public class Comida {
     @Column
     private String descripcion;
     @Column
-    private String url;
+    private List<String> urls;
 
 }
