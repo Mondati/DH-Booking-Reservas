@@ -1,12 +1,15 @@
 package com.example.proyectointegrador.controller;
 
 import com.example.proyectointegrador.entity.Comida;
+import com.example.proyectointegrador.entity.ComidaRequest;
 import com.example.proyectointegrador.exception.ResoucerNotFoundException;
 import com.example.proyectointegrador.service.ComidaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +41,19 @@ public class ComidaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Comida> guardarComida(@RequestBody Comida comida) {
-        return ResponseEntity.ok(comidaService.guardarComida(comida));
+    public ResponseEntity<Comida> guardarComida(@RequestBody ComidaRequest comidaRequest) {
+        List<String> listaDeUrls = comidaRequest.getImagenes();
+        Comida comida = new Comida();
+        comida.setNombre(comidaRequest.getNombre());
+        comida.setDescripcion(comidaRequest.getDescripcion());
+        comida.setUrl(comidaRequest.getUrl());
+        comida.setCategoria(comidaRequest.getCategoria());
+
+        Comida comidaGuardada = comidaService.guardarComida(comida, listaDeUrls);
+
+        return ResponseEntity.ok(comidaGuardada);
     }
+
 
     @DeleteMapping("/{id}")
     @Transactional
