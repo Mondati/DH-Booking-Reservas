@@ -22,6 +22,10 @@ public class ComidaService {
     }
 
     public Comida guardarComida(Comida comida, List<String> listaDeUrls) {
+        String nombreComida = comida.getNombre();
+        if (comidaRepository.existsByNombre(nombreComida)) {
+            throw new ComidaDuplicadaException("El nombre de la comida ya está en uso: " + nombreComida);
+        }
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             String imagenesJson = objectMapper.writeValueAsString(listaDeUrls);
@@ -29,7 +33,6 @@ public class ComidaService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return comidaRepository.save(comida);
     }
 
