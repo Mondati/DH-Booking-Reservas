@@ -26,15 +26,11 @@ public class ComidaService {
         if (comidaRepository.existsByNombre(nombreComida)) {
             throw new ComidaDuplicadaException("El nombre de la comida ya está en uso: " + nombreComida);
         }
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String imagenesJson = objectMapper.writeValueAsString(listaDeUrls);
-            comida.setImagenes(imagenesJson);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        comida.setImagenes(listaDeUrls); // Set the list of image URLs directly
+
         return comidaRepository.save(comida);
     }
+
 
     public List<Comida> buscarComidasPorCategoria(String categoria) {
         return comidaRepository.findByCategoria(categoria);

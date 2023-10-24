@@ -28,9 +28,9 @@ window.addEventListener('load', function () {
 
           const imagenesDiv = comidaElement.querySelector('#imagenes');
 
-          JSON.parse(comida.imagenes).forEach(imagen => {
+          comida.imagenes.forEach(imagen => {
             const imgElement = document.createElement('img');
-            imgElement.src = imagen;
+            imgElement.src = imagen; // Enlace directo a la imagen
             imgElement.classList.add('comida-img'); // Añadimos la clase para el estilo
             imagenesDiv.appendChild(imgElement);
           });

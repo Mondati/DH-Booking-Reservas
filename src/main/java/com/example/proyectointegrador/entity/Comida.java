@@ -26,7 +26,8 @@ public class Comida {
     @Column
     private String categoria;
 
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String imagenes;
+    @ElementCollection
+    @CollectionTable(name = "comida_imagenes", joinColumns = @JoinColumn(name = "comida_id"))
+    @Column(name = "imagen_url")
+    private List<String> imagenes;
 }

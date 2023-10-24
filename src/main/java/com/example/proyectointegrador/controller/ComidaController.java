@@ -50,19 +50,24 @@ public class ComidaController {
         return ResponseEntity.ok(comidaService.listarTodasLasComidas());
     }
 
-    @PostMapping
+
+    @PostMapping("/guardar")
     @Transactional
     public ResponseEntity<Comida> guardarComida(@RequestBody ComidaRequest comidaRequest) {
-        List<String> listaDeUrls = comidaRequest.getImagenes();
+        List<String> listaDeEnlaces = comidaRequest.getImagenes();
+
         Comida comida = new Comida();
         comida.setNombre(comidaRequest.getNombre());
         comida.setDescripcion(comidaRequest.getDescripcion());
         comida.setCategoria(comidaRequest.getCategoria());
 
-        Comida comidaGuardada = comidaService.guardarComida(comida, listaDeUrls);
+        Comida comidaGuardada = comidaService.guardarComida(comida, listaDeEnlaces);
 
         return ResponseEntity.ok(comidaGuardada);
     }
+
+
+
 
     @DeleteMapping("/{id}")
     @Transactional
