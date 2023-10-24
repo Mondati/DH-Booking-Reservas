@@ -44,6 +44,7 @@ public class ComidaController {
         return ResponseEntity.ok(comidas);
     }
 
+
     @GetMapping
     public ResponseEntity<List<Comida>> listarComidas() {
         return ResponseEntity.ok(comidaService.listarTodasLasComidas());
