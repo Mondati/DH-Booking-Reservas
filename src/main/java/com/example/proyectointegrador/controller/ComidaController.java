@@ -19,6 +19,7 @@ public class ComidaController {
 
     private final ComidaService comidaService;
 
+
     @Autowired
     public ComidaController(ComidaService comidaService) {
         this.comidaService = comidaService;
@@ -32,6 +33,15 @@ public class ComidaController {
         } else {
             throw new ResoucerNotFoundException("Comida no encontrada con ID: " + id);
         }
+    }
+
+    @GetMapping("/categoria")
+    public ResponseEntity<List<Comida>> buscarComidasPorCategoria(@RequestParam("categoria") String categoria) throws ResoucerNotFoundException {
+        List<Comida> comidas = comidaService.buscarComidasPorCategoria(categoria);
+        if (comidas.isEmpty()) {
+            throw new ResoucerNotFoundException("No se encontraron comidas en la categoría: " + categoria);
+        }
+        return ResponseEntity.ok(comidas);
     }
 
     @GetMapping

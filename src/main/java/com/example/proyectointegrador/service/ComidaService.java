@@ -36,6 +36,10 @@ public class ComidaService {
         return comidaRepository.save(comida);
     }
 
+    public List<Comida> buscarComidasPorCategoria(String categoria) {
+        return comidaRepository.findByCategoria(categoria);
+    }
+
     public void eliminarComida(Long id) {
         comidaRepository.deleteById(id);
     }
