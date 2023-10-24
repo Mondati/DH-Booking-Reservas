@@ -6,7 +6,6 @@ public class ComidaRequest {
 
     private String nombre;
     private String descripcion;
-    private String url;
     private String categoria;
     private List<String> imagenes;
 
@@ -26,13 +25,7 @@ public class ComidaRequest {
         this.descripcion = descripcion;
     }
 
-    public String getUrl() {
-        return url;
-    }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getCategoria() {
         return categoria;

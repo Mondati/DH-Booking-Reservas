@@ -46,14 +46,12 @@ public class ComidaController {
         Comida comida = new Comida();
         comida.setNombre(comidaRequest.getNombre());
         comida.setDescripcion(comidaRequest.getDescripcion());
-        comida.setUrl(comidaRequest.getUrl());
         comida.setCategoria(comidaRequest.getCategoria());
 
         Comida comidaGuardada = comidaService.guardarComida(comida, listaDeUrls);
 
         return ResponseEntity.ok(comidaGuardada);
     }
-
 
     @DeleteMapping("/{id}")
     @Transactional

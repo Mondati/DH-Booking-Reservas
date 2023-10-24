@@ -24,12 +24,9 @@ public class Comida {
     private String descripcion;
 
     @Column
-    private String url;
-
-    @Column
     private String categoria;
 
     @Lob
     @Column(columnDefinition = "TEXT")
-    private String imagenes; // Serializará la lista de URLs a una cadena JSON
+    private String imagenes;
 }
