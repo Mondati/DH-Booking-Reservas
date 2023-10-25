@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/comidas")
@@ -71,13 +69,16 @@ public class ComidaController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> eliminarPaciente(@PathVariable Long id) throws ResoucerNotFoundException {
+    public ResponseEntity<Map<String, String>> eliminarPaciente(@PathVariable Long id) throws ResoucerNotFoundException {
         Optional<Comida> comidaBuscada = comidaService.buscarComidaPorId(id);
         if (comidaBuscada.isPresent()) {
             comidaService.eliminarComida(id);
-            return ResponseEntity.ok("Comida eliminada con éxito: " + id);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Comida eliminada con éxito");
+            return ResponseEntity.ok(response);
         } else {
             throw new ResoucerNotFoundException("No existe el id asociado a una comida en la base de datos " + id);
         }
     }
+
 }
