@@ -1,11 +1,12 @@
 package com.example.proyectointegrador.controller;
 
 import com.example.proyectointegrador.entity.Comida;
-import com.example.proyectointegrador.entity.ComidaRequest;
+import com.example.proyectointegrador.exception.ComidaDuplicadaException;
 import com.example.proyectointegrador.exception.ResoucerNotFoundException;
 import com.example.proyectointegrador.service.ComidaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,17 +55,15 @@ public class ComidaController {
 
     @PostMapping("/guardar")
     @Transactional
-    public ResponseEntity<Comida> guardarComida(@RequestBody ComidaRequest comidaRequest) {
-        List<String> listaDeEnlaces = comidaRequest.getImagenes();
+    public ResponseEntity<Comida> guardarComida(@RequestBody Comida comida) {
+        List<String> listaDeEnlaces = comida.getImagenes();
 
-        Comida comida = new Comida();
-        comida.setNombre(comidaRequest.getNombre());
-        comida.setDescripcion(comidaRequest.getDescripcion());
-        comida.setCategoria(comidaRequest.getCategoria());
-
-        Comida comidaGuardada = comidaService.guardarComida(comida, listaDeEnlaces);
-
-        return ResponseEntity.ok(comidaGuardada);
+        try {
+            Comida comidaGuardada = comidaService.guardarComida(comida, listaDeEnlaces);
+            return ResponseEntity.ok(comidaGuardada);
+        } catch (ComidaDuplicadaException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
 
