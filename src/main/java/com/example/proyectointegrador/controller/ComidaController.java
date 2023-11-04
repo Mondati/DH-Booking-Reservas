@@ -1,6 +1,7 @@
 package com.example.proyectointegrador.controller;
 
 import com.example.proyectointegrador.entity.Comida;
+import com.example.proyectointegrador.exception.BadRequestException;
 import com.example.proyectointegrador.exception.ComidaDuplicadaException;
 import com.example.proyectointegrador.exception.ResoucerNotFoundException;
 import com.example.proyectointegrador.service.ComidaService;
@@ -8,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -55,7 +57,6 @@ public class ComidaController {
     @Transactional
     public ResponseEntity<Comida> guardarComida(@RequestBody Comida comida) {
         List<String> listaDeEnlaces = comida.getImagenes();
-
         try {
             Comida comidaGuardada = comidaService.guardarComida(comida, listaDeEnlaces);
             return ResponseEntity.ok(comidaGuardada);
@@ -65,11 +66,9 @@ public class ComidaController {
     }
 
 
-
-
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Map<String, String>> eliminarPaciente(@PathVariable Long id) throws ResoucerNotFoundException {
+    public ResponseEntity<Map<String, String>> eliminarComida(@PathVariable Long id) throws ResoucerNotFoundException {
         Optional<Comida> comidaBuscada = comidaService.buscarComidaPorId(id);
         if (comidaBuscada.isPresent()) {
             comidaService.eliminarComida(id);
@@ -80,5 +79,20 @@ public class ComidaController {
             throw new ResoucerNotFoundException("No existe el id asociado a una comida en la base de datos " + id);
         }
     }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<String> actualizarComida(@RequestBody  Comida comida) throws BadRequestException {
+        Optional<Comida> comidaBuscada = comidaService.buscarComidaPorId(comida.getId());
+        if (comidaBuscada.isPresent()) {
+            comidaService.actualizarComida(comida);
+            return ResponseEntity.ok("Comida actualizada " + comida.getNombre());
+        } else {
+            throw new BadRequestException("Comida no encontrada " + comida.getNombre());
+        }
+    }
+
+
+
 
 }

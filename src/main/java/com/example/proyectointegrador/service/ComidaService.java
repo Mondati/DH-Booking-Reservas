@@ -48,4 +48,9 @@ public class ComidaService {
         return comidaRepository.findAll();
     }
 
+    public void actualizarComida(Comida comida) {
+        comidaRepository.save(comida);
+    }
+
+
 }

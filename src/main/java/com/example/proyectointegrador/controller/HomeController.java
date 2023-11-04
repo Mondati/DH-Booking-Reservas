@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.example.proyectointegrador.entity.Comida;
+import com.example.proyectointegrador.exception.ResoucerNotFoundException;
 import com.example.proyectointegrador.service.ComidaService;
 import com.example.proyectointegrador.service.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,14 @@ public class HomeController {
         return ResponseEntity.ok(userDetail.listarUsuarios());
     }
 
+    @GetMapping("/by-username/{userName}")
+    public ResponseEntity<User> buscarUsuarioPorUserName(@PathVariable String userName) throws ResoucerNotFoundException {
+        User user = userRepository.findByUserName(userName);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            throw new ResoucerNotFoundException("Usuario no encontrado " + userName);
+        }
+    }
 
 }
