@@ -1,21 +1,24 @@
-package com.example.proyectointegrador.security;
+package com.example.proyectointegrador.entity;
 
-import com.example.proyectointegrador.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 @EnableWebSecurity
-public class ConfiguracionesDeSeguridad  {
-
+public class SecurityConfig  {
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -24,14 +27,27 @@ public class ConfiguracionesDeSeguridad  {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
+
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests().antMatchers("/**", "/**").permitAll()
-                .anyRequest().authenticated();
-        http.headers().frameOptions().disable();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((authz) -> authz
+                   //    .requestMatchers("/comidas").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().permitAll()
+
+                )
+              //  .logout((logout) -> logout.logoutSuccessUrl("/api/logout"))
+                .httpBasic(withDefaults());
+              //  .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
-}
+
+//            .requestMatchers("/my/success/endpoint").permitAll()
+
+
+
 
 }
