@@ -14,7 +14,7 @@ public class User {
     private Integer id;
     private String name;
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String surName;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
@@ -41,12 +41,12 @@ public class User {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getSurName() {
+        return surName;
     }
 
-    public void setUserName(String username) {
-        this.userName = username;
+    public void setSurName(String surName) {
+        this.surName = surName;
     }
 
     public String getEmail() {

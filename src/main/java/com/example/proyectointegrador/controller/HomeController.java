@@ -2,11 +2,14 @@ package com.example.proyectointegrador.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.proyectointegrador.entity.Comida;
+import com.example.proyectointegrador.exception.BadRequestException;
 import com.example.proyectointegrador.exception.ResoucerNotFoundException;
 import com.example.proyectointegrador.service.ComidaService;
 import com.example.proyectointegrador.service.UserDetail;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +39,8 @@ public class HomeController {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    private final UserDetail userDetail;
+    @Autowired
+    private UserDetail userDetail;
 
     @Autowired
     public HomeController(UserDetail userDetail) {
@@ -48,7 +51,7 @@ public class HomeController {
     @PostMapping("/login")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>("Logueado con exito!!...", HttpStatus.OK);
     }
@@ -57,9 +60,12 @@ public class HomeController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
         // reviso si el usuario existe en la BD
-        if(userRepository.existsByUserName(signUpDto.getUsername())){
-            return new ResponseEntity<>("El nombre de usuario ya existe!", HttpStatus.BAD_REQUEST);
-        }
+     //   if(userRepository.existsByUserName(signUpDto.getUsername())){
+   //         return new ResponseEntity<>("El nombre de usuario ya existe!", HttpStatus.BAD_REQUEST);
+    //    }
+
+
+
         // reviso si el email existe en la BD
         if(userRepository.existsByEmail(signUpDto.getEmail())){
             return new ResponseEntity<>("El email ya existe!", HttpStatus.BAD_REQUEST);
@@ -67,7 +73,7 @@ public class HomeController {
         // si no se cumple lo de arriba, creo al usuario, por defecto con rol USER osea usuario normal
         User user = new User();
         user.setName(signUpDto.getName());
-        user.setUserName(signUpDto.getUsername());
+        user.setSurName(signUpDto.getSurName());
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Role roles = roleRepository.findByName("ROLE_USER").get();
@@ -81,14 +87,32 @@ public class HomeController {
         return ResponseEntity.ok(userDetail.listarUsuarios());
     }
 
-    @GetMapping("/by-username/{userName}")
-    public ResponseEntity<User> buscarUsuarioPorUserName(@PathVariable String userName) throws ResoucerNotFoundException {
-        User user = userRepository.findByUserName(userName);
-        if (user != null) {
+    @GetMapping("/byEmail/{email}")
+    public ResponseEntity<User> buscarUsuarioEmail(@PathVariable String email) throws ResoucerNotFoundException {
+        boolean existeUsuario = userRepository.existsByEmail(email);
+
+        if (existeUsuario) {
+            User user = userRepository.findByEmail(email);
             return ResponseEntity.ok(user);
         } else {
-            throw new ResoucerNotFoundException("Usuario no encontrado " + userName);
+            throw new ResoucerNotFoundException("Usuario no encontrado " + email);
         }
     }
+
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<String> actualizarUser(@RequestBody  User user) throws BadRequestException {
+        Optional<User> userBuscado = userDetail.buscarUserPorId(user.getId());
+
+        if (userBuscado.isPresent()) {
+            userDetail.actualizarUsuario(user);
+            return ResponseEntity.ok("Usuario actualizado " + user.getEmail());
+        } else {
+            throw new BadRequestException("Usuario no encontrado " + user.getEmail());
+        }
+    }
+
+
 
 }

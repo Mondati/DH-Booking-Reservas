@@ -2,7 +2,7 @@ package com.example.proyectointegrador.dto;
 
 public class SignUpDto {
     private String name;
-    private String username;
+    private String surName;
     private String email;
     private String password;
     public SignUpDto() {
@@ -13,11 +13,11 @@ public class SignUpDto {
     public void setName(String name) {
         this.name = name;
     }
-    public String getUsername() {
-        return username;
+    public String getSurName() {
+        return surName;
     }
-    public void setUsername(String username) {
-        this.username = username;
+    public void setSurName(String surName) {
+        this.surName = surName;
     }
     public String getEmail() {
         return email;
