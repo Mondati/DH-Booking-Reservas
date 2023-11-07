@@ -49,12 +49,16 @@ public class HomeController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<User> authenticateUser(@RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("Logueado con exito!!...", HttpStatus.OK);
+
+        String email = loginDto.getEmail();
+        User usuario = userRepository.findByEmail(email); // Encuentra el usuario por el email
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
+
 
 
     @PostMapping("/signup")
