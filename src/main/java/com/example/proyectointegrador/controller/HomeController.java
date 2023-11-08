@@ -1,8 +1,6 @@
 package com.example.proyectointegrador.controller;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.example.proyectointegrador.entity.Comida;
 import com.example.proyectointegrador.exception.BadRequestException;
@@ -106,16 +104,33 @@ public class HomeController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<String> actualizarUser(@RequestBody  User user) throws BadRequestException {
+    public ResponseEntity<User> actualizarUser(@RequestBody User user) throws BadRequestException {
         Optional<User> userBuscado = userDetail.buscarUserPorId(user.getId());
 
         if (userBuscado.isPresent()) {
-            userDetail.actualizarUsuario(user);
-            return ResponseEntity.ok("Usuario actualizado " + user.getEmail());
+            User userActual = userBuscado.get();
+
+            Integer currentRoleId = userActual.getRoles().iterator().next().getId();
+
+            Role role = new Role();
+            if (currentRoleId == 1) {
+                role.setId(2);
+            } else if (currentRoleId == 2) {
+                role.setId(1);
+            }
+
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+
+            userActual.setRoles(roles); // Actualiza los roles
+            userDetail.actualizarUsuario(userActual);
+            return ResponseEntity.ok(userActual); // Devuelve el usuario actualizado
         } else {
             throw new BadRequestException("Usuario no encontrado " + user.getEmail());
         }
     }
+
+
 
 
 
