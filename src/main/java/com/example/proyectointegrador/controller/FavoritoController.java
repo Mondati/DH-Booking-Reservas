@@ -19,22 +19,22 @@ public class FavoritoController {
     }
 
     @GetMapping("/{favoritoId}")
-    public Optional<Favorito> getFavoritoById(@PathVariable Long favoritoId) {
-        return favoritoService.oobtenerFavoritoPorId(favoritoId);
+    public Optional<Favorito> buscarFavPorId(@PathVariable Long favoritoId) {
+        return favoritoService.obtenerFavoritoPorId(favoritoId);
     }
 
     @GetMapping
-    public List<Favorito> getAllFavoritos() {
+    public List<Favorito> buscarTodosLosFavoritos() {
         return favoritoService.obtenerTodosLosFavoritos();
     }
 
     @PostMapping
-    public Favorito addFavorito(@RequestBody Favorito favorito) {
+    public Favorito guardarFavorito(@RequestBody Favorito favorito) {
         return favoritoService.guardarFavorito(favorito);
     }
 
     @DeleteMapping("/{favoritoId}")
-    public void deleteFavorito(@PathVariable Long favoritoId) {
+    public void eliminarFavorito(@PathVariable Long favoritoId) {
         favoritoService.eliminarFavorito(favoritoId);
     }
 }

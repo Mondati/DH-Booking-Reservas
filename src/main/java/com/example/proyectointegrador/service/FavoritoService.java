@@ -16,7 +16,7 @@ public class FavoritoService {
         this.favoritoRepository = favoritoRepository;
     }
 
-    public Optional<Favorito> oobtenerFavoritoPorId(Long favoritoId) {
+    public Optional<Favorito> obtenerFavoritoPorId(Long favoritoId) {
         return favoritoRepository.findById(favoritoId);
     }
     public List<Favorito> obtenerTodosLosFavoritos() {
