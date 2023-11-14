@@ -32,4 +32,5 @@ public class Comida {
     private List<String> imagenes;
 
 
+
 }

@@ -8,8 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 
 @RestController
+@CrossOrigin
 @RequestMapping("/reservas")
 public class ReservaController {
 
@@ -26,4 +31,14 @@ public class ReservaController {
             return new ResponseEntity<>("Error al crear la reserva: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
+
+    @GetMapping("/{comidaID}")
+    public List<Date> obtenerFechasReservasPorComidaId(@PathVariable Integer comidaID) {
+        return reservaService.obtenerFechasReservasPorComidaId(comidaID);
+    }
+
+
 }

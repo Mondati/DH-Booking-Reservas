@@ -14,15 +14,16 @@ import java.util.List;
 @Setter
 public class Reserva {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer atributo_id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "reserva_comida",
             joinColumns = @JoinColumn(name = "reserva_id"),
@@ -31,6 +32,6 @@ public class Reserva {
     private List<Comida> comidas;
 
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private LocalDate fecha_reserva;
 }
