@@ -3,6 +3,7 @@ package com.example.proyectointegrador.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,5 +31,8 @@ public class Comida {
     @CollectionTable(name = "comida_imagenes", joinColumns = @JoinColumn(name = "comida_id"))
     @Column(name = "imagen_url")
     private List<String> imagenes;
-    
+
+    @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL)
+    private List<Favorito> favoritos = new ArrayList<>();
+
 }

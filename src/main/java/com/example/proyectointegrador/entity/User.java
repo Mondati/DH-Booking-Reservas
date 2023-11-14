@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,6 +38,9 @@ public class User {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<com.example.proyectointegrador.entity.Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Favorito> favoritos = new ArrayList<>();
 
 
 }
