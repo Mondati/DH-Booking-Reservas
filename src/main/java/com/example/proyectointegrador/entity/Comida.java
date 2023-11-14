@@ -31,5 +31,4 @@ public class Comida {
     @Column(name = "imagen_url")
     private List<String> imagenes;
 
-
 }
