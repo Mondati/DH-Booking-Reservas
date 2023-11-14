@@ -3,8 +3,6 @@ package com.example.proyectointegrador.service;
 import com.example.proyectointegrador.entity.Comida;
 import com.example.proyectointegrador.exception.ComidaDuplicadaException;
 import com.example.proyectointegrador.repository.ComidaRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

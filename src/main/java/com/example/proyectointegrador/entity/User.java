@@ -1,76 +1,42 @@
 package com.example.proyectointegrador.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String surName;
+
     @Column(nullable = false, unique = true)
     private String email;
+
     @Column(nullable = false)
     private String password;
+
     @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE) // Opcional: para cargar los roles de manera inmediata
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<com.example.proyectointegrador.entity.Role> roles;
 
-    // Getters y setters aquí...
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<com.example.proyectointegrador.entity.Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<com.example.proyectointegrador.entity.Role> roles) {
-        this.roles = roles;
-    }
 }
