@@ -32,7 +32,7 @@ public class Comida {
     @Column(name = "imagen_url")
     private List<String> imagenes;
 
-    @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL)
-    private List<Favorito> favoritos = new ArrayList<>();
+  //  @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL)
+  //  private List<Favorito> favoritos = new ArrayList<>();
 
 }

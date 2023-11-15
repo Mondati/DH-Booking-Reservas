@@ -39,8 +39,8 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<com.example.proyectointegrador.entity.Role> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Favorito> favoritos = new ArrayList<>();
+   // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+   // private List<Favorito> favoritos = new ArrayList<>();
 
 
 }
