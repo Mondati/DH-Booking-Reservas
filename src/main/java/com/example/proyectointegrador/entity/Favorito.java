@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "favoritos")
 @AllArgsConstructor
@@ -25,5 +27,9 @@ public class Favorito {
     @ManyToOne
     @JoinColumn(name = "id_comida")
     private Comida comida;
+
+
+
+
 
 }

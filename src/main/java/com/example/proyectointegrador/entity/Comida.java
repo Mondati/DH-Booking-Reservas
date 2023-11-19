@@ -35,4 +35,7 @@ public class Comida {
   //  @OneToMany(mappedBy = "comida", cascade = CascadeType.ALL)
   //  private List<Favorito> favoritos = new ArrayList<>();
 
+
+
+
 }

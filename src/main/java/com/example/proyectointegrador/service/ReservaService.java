@@ -47,7 +47,10 @@ public class ReservaService {
     public List<Date> obtenerFechasReservasPorComidaId(Integer comidaID) {
         return reservaRepository.findFechasReservasPorComidaId(comidaID);
     }
+    public void eliminarReserva (Long comidaId){
 
+        reservaRepository.eliminarReserva(comidaId);
+    }
 
 
 

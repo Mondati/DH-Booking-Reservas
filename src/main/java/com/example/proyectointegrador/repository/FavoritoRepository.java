@@ -27,4 +27,10 @@ public interface FavoritoRepository extends JpaRepository<Favorito, Long> {
     void eliminarFavoritoPorComidaYUsuario(@Param("comidaId") Long comidaId, @Param("usuarioId") Long usuarioId);
 
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM favoritos WHERE id_comida = :comidaId", nativeQuery = true)
+    void eliminarComidas(@Param("comidaId") Long comidaId);
+
+
 }

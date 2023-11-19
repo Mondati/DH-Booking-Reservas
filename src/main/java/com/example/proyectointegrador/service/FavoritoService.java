@@ -6,6 +6,7 @@ import com.example.proyectointegrador.repository.FavoritoRepository;
 import com.example.proyectointegrador.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,8 +58,10 @@ public class FavoritoService {
        favoritoRepository.eliminarFavoritoPorComidaYUsuario(comidaId, usuarioId);
     }
 
+public void eliminarComidas (Long comidaId){
 
-
+    favoritoRepository.eliminarComidas(comidaId);
+}
 
 
 }

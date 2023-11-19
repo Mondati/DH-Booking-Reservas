@@ -5,6 +5,8 @@ import com.example.proyectointegrador.exception.BadRequestException;
 import com.example.proyectointegrador.exception.ComidaDuplicadaException;
 import com.example.proyectointegrador.exception.ResoucerNotFoundException;
 import com.example.proyectointegrador.service.ComidaService;
+import com.example.proyectointegrador.service.FavoritoService;
+import com.example.proyectointegrador.service.ReservaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,12 @@ public class ComidaController {
     public ComidaController(ComidaService comidaService) {
         this.comidaService = comidaService;
     }
+
+    @Autowired
+    public FavoritoService favoritoService;
+
+    @Autowired
+    public ReservaService reservaService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Comida> buscarComidaPorId(@PathVariable("id") Long id) throws ResoucerNotFoundException   {
@@ -71,6 +79,8 @@ public class ComidaController {
     public ResponseEntity<Map<String, String>> eliminarComida(@PathVariable Long id) throws ResoucerNotFoundException {
         Optional<Comida> comidaBuscada = comidaService.buscarComidaPorId(id);
         if (comidaBuscada.isPresent()) {
+            favoritoService.eliminarComidas(id);
+            reservaService.eliminarReserva(id);
             comidaService.eliminarComida(id);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Comida eliminada con éxito");
