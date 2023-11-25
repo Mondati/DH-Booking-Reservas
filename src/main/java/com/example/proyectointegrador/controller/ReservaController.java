@@ -36,7 +36,7 @@ public class ReservaController {
 
 
     @GetMapping("/{comidaID}")
-    public List<Date> obtenerFechasReservasPorComidaId(@PathVariable Integer comidaID) {
+    public List<List<LocalDate>> obtenerFechasReservasPorComidaId(@PathVariable Integer comidaID) {
         return reservaService.obtenerFechasReservasPorComidaId(comidaID);
     }
 

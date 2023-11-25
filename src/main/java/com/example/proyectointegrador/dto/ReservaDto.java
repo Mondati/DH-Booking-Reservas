@@ -16,6 +16,7 @@ public class ReservaDto {
 
     private Long userId;
     private List<Long> comidaIds;
-    private LocalDate fechaReserva;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
 
 }

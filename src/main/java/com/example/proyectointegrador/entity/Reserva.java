@@ -33,5 +33,7 @@ public class Reserva {
 
 
     @Column(nullable = false)
-    private LocalDate fecha_reserva;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+
 }
