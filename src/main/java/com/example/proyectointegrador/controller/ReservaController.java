@@ -57,17 +57,10 @@ public class ReservaController {
     public List<Comida> buscarComidas(@RequestParam(required = false) String nombre, @RequestParam(required = false) String categoria, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
         List<Object[]> result = reservaRepository.findComidas(nombre, categoria, fechaInicio, fechaFin);
 
-        // Imprimir información de depuración en la consola
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Categoria: " + categoria);
-        System.out.println("FechaInicio: " + fechaInicio);
-        System.out.println("FechaFin: " + fechaFin);
 
 
-        // Procesar manualmente los resultados y convertirlos a instancias de Comida
         List<Comida> comidas = new ArrayList<>();
         for (Object[] row : result) {
-            // Suponiendo que el primer elemento del array es el ID de Comida
             Long comidaId = (Long) row[0];
             Comida comida = comidaService.buscarComidaPorId(comidaId).orElse(null);
             if (comida != null) {
