@@ -32,6 +32,8 @@ public class Reserva {
     private List<Comida> comidas;
 
 
+
+
     @Column(nullable = false)
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
