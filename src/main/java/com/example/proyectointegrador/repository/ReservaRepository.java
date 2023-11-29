@@ -32,7 +32,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     int countReservasSolapadas(@Param("comidaID") Integer comidaID, @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
 
-    @Query(value = "SELECT c.* FROM comidas c WHERE (:nombre IS NULL OR c.nombre LIKE CONCAT('%', :nombre, '%') OR c.descripcion LIKE CONCAT('%', :nombre, '%')) AND (:categoria IS NULL OR c.categoria = :categoria) AND NOT EXISTS (SELECT 1 FROM reserva_comida rc JOIN reservas r ON rc.reserva_id = r.id WHERE c.id = rc.comida_id AND ((r.fecha_inicio <= :fechaFin AND r.fecha_fin >= :fechaInicio) OR (r.fecha_inicio >= :fechaInicio AND r.fecha_inicio <= :fechaFin) OR (r.fecha_fin >= :fechaInicio AND r.fecha_fin <= :fechaFin)))", nativeQuery = true)
+    @Query(value = "SELECT c.*, ci.imagen_url FROM comidas c LEFT JOIN comida_imagenes ci ON c.id = ci.comida_id WHERE (:nombre IS NULL OR c.nombre LIKE CONCAT('%', :nombre, '%') OR c.descripcion LIKE CONCAT('%', :nombre, '%')) AND (:categoria IS NULL OR c.categoria = :categoria) AND NOT EXISTS (SELECT 1 FROM reserva_comida rc JOIN reservas r ON rc.reserva_id = r.id WHERE c.id = rc.comida_id AND ((r.fecha_inicio <= :fechaFin AND r.fecha_fin >= :fechaInicio) OR (r.fecha_inicio >= :fechaInicio AND r.fecha_inicio <= :fechaFin) OR (r.fecha_fin >= :fechaInicio AND r.fecha_fin <= :fechaFin))) ORDER BY c.id ASC", nativeQuery = true)
     List<Object[]> findComidas(@Param("nombre") String nombre, @Param("categoria") String categoria, @Param("fechaInicio") Date fechaInicio, @Param("fechaFin") Date fechaFin);
 
 

@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -57,18 +55,27 @@ public class ReservaController {
     public List<Comida> buscarComidas(@RequestParam(required = false) String nombre, @RequestParam(required = false) String categoria, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
         List<Object[]> result = reservaRepository.findComidas(nombre, categoria, fechaInicio, fechaFin);
 
-
-
-        List<Comida> comidas = new ArrayList<>();
+        Map<Long, Comida> comidasMap = new LinkedHashMap<>();
         for (Object[] row : result) {
-            Long comidaId = (Long) row[0];
-            Comida comida = comidaService.buscarComidaPorId(comidaId).orElse(null);
-            if (comida != null) {
-                comidas.add(comida);
+            Long id = (Long) row[0];
+            Comida comida = comidasMap.getOrDefault(id, new Comida());
+            comida.setId(id);
+            comida.setNombre((String) row[3]);
+            comida.setDescripcion((String) row[2]);
+            comida.setCategoria((String) row[1]);
+            List<String> imagenes = comida.getImagenes();
+            if (imagenes == null) {
+                imagenes = new ArrayList<>();
+                comida.setImagenes(imagenes);
             }
+            imagenes.add((String) row[4]);
+            comidasMap.put(id, comida);
         }
 
-        return comidas;
+        return new ArrayList<>(comidasMap.values());
     }
+
+
+
 
 }
