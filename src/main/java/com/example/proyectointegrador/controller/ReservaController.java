@@ -77,5 +77,10 @@ public class ReservaController {
 
 
 
+    @GetMapping("/historial/{userId}")
+    public List<Object[]> getHistorial(@PathVariable Long userId) {
+        return reservaRepository.historialReservas(userId);
+    }
+
 
 }
