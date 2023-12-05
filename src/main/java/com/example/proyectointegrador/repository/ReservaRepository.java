@@ -36,7 +36,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     List<Object[]> findComidas(@Param("nombre") String nombre, @Param("categoria") String categoria, @Param("fechaInicio") Date fechaInicio, @Param("fechaFin") Date fechaFin);
 
 
-    @Query(value = "SELECT c.id, c.nombre, r.fecha_inicio, r.fecha_fin, DATE_SUB(r.inserted_at, INTERVAL 3 HOUR) as inserted_at FROM comidas c JOIN reserva_comida rc ON c.id = rc.comida_id JOIN reservas r ON rc.reserva_id = r.id WHERE r.user_id = :userId ORDER BY r.inserted_at ASC", nativeQuery = true)
+    @Query(value = "SELECT c.id, c.nombre, r.fecha_inicio, r.fecha_fin,r.inserted_at FROM comidas c JOIN reserva_comida rc ON c.id = rc.comida_id JOIN reservas r ON rc.reserva_id = r.id WHERE r.user_id = :userId ORDER BY r.inserted_at ASC", nativeQuery = true)
     List<Object[]> historialReservas(@Param("userId") Long userId);
 
 
