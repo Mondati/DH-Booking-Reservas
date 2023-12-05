@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     Optional<Reserva> findById(Integer id);
 
-    @Query(value ="SELECT fecha_inicio, fecha_fin FROM reservas JOIN reserva_comida WHERE reservas.id = reserva_comida.reserva_id and reserva_comida.comida_id = :comidaID and fecha_inicio >= CURRENT_DATE", nativeQuery = true)
+    @Query(value ="SELECT fecha_inicio, fecha_fin FROM reservas JOIN reserva_comida WHERE reservas.id = reserva_comida.reserva_id and reserva_comida.comida_id = :comidaID and fecha_inicio", nativeQuery = true)
     List<Object[]> findFechasReservasPorComidaId(@Param("comidaID") Integer comidaID);
 
 
